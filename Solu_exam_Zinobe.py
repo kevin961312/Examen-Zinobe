@@ -2,7 +2,6 @@
 # Librerías necesarias para los 4 problemas.
 import sys
 import numpy as np
-from random import randint
 from itertools import chain
 import scipy.optimize as opt
 from math import cos,sin, pi
