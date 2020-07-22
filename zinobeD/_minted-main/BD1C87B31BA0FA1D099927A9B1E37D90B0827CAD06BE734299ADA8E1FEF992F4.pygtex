@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{kadane1D}\PYG{p}{(}\PYG{n}{array}\PYG{p}{):}
+    \PYG{n}{sumMax} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{p}{,} \PYG{n}{t}\PYG{o}{=}\PYG{l+m+mi}{0}
+    \PYG{n}{ind}\PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{array}\PYG{p}{)):}
+        \PYG{n}{t}\PYG{o}{+=}\PYG{n}{array}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{t}\PYG{o}{\PYGZgt{}}\PYG{n}{sumMax}\PYG{p}{:} 
+            \PYG{n}{sumMax}\PYG{o}{=}\PYG{n}{t}
+            \PYG{n}{ini}\PYG{p}{,}\PYG{n}{finish}\PYG{o}{=}\PYG{n}{ind}\PYG{p}{,}\PYG{n}{j}
+        \PYG{k}{if} \PYG{n}{t}\PYG{o}{\PYGZlt{}=}\PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{t}\PYG{o}{=}\PYG{l+m+mi}{0}
+            \PYG{n}{ind}\PYG{o}{=}\PYG{n}{j}\PYG{o}{+}\PYG{l+m+mi}{1}
+    \PYG{k}{return} \PYG{n}{sumMax}\PYG{p}{,}\PYG{n}{ini}\PYG{p}{,}\PYG{n}{finish}
+\end{Verbatim}

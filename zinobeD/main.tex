@@ -1,0 +1,137 @@
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel} %Paquete complementario para apoyo en el idioma.
+\usepackage{Package}  
+\usepackage{minted}
+\usepackage{algpseudocode}
+\newcommand{\comillas}[1]{``#1"}%comillas	
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\integraone}[1]{\int_{0}^{\infty}#1 e^{-t}dt}
+\newcommand{\integratwo}[2]{\int_{0}^{\infty}#1 \left( #2\right)  e^{-t}dt}
+\newcommand{\limites}[1]{\lim_{b\to \infty} #1}
+\newcommand{\prodint}[2]{\left\langle #1,#2 \right\rangle}
+\newcommand{\barra}{\Big|_0^\infty}
+
+\begin{document}
+	\title{Solución Examen Zinobe}
+	\author{Kevin Sebastian Pineda Jaramillo\\Kevin@gmail.com\\ Zinobe}
+	\date{ }
+	\maketitle
+	\section*{Planteamiento del Problema}
+	\justify{
+		En el siguiente documento pretende describir los pasos para llegar a la solución de 4 problemas planteados por la empresa Zinobe, estos problemás son:
+		\begin{itemize}
+			\item Implementar una función en Python tal que dada una matriz $M$ con entradas en $\{0,1\}$, encontrar la submatriz más grande donde todas sus entradas son $0$. Estas función debe estar definida como:\inputminted{python}{codigos/max_rec.py}
+			si se evalua la matriz $M$ en nuestra función, debe returnar la tupla $(i,j,a,b)$, donde $(i,j)$ son los indices de la primera entrada de la submatriz y $(a,b)$ son los anchos y largos de la submatriz.
+			
+		
+			\item Implementar una función en Python tal que dada una matriz $M$ con entradas en $\{0,1\}$, encontrar la submatriz cuadrada más donde todas sus entradas son $0$. Estas función debe estar definida como:\inputminted{python}{codigos/max_cua.py}
+			si se evaluá la matriz $M$ en nuestra función, debe retornar la tupla $(i,j,a)$, donde $(i,j)$ son los indices de la primera entrada de la submatriz y $a$ es la longitud de un lado de nuestro cuadrado.
+			\item Implementar una función en Python tal que dada una matriz $M$ con entradas en $\{0,1\}$ y una entrada $(i,j)$, esta función retorna un iterador que genera celdas libres y este forma un camino.Esta función debe estar definida como:\inputminted{python}{codigos/itera.py}
+			
+			\item Resolver usando Python el siguiente sistema nolineal con condiciones:
+			\begin{align*}
+				-F_{r}+\omega_{x}&=ma\\
+				N-\omega_{y}&=0\\
+				F_{r}=N\mu\hspace{10pt}\omega_{x}&=\omega\sin{\theta}\hspace{10pt}
+				\omega_{y}=\omega\cos{\theta}\\
+				\mu= 0.2\hspace{10pt}\omega=mg \hspace{10pt}
+				a&=0.012\frac{m}{s^2}\hspace{10pt}g=10\frac{m}{s^2}\hspace{10pt}m=10kg
+			\end{align*}
+		\end{itemize}
+
+	La solución a los dos primeros items pueden ser dada gracias al algoritmo de Kadane que nos permite determinar la matriz con mayor suma y sus indices, (este algoritmo sera descrito en la siguiente sección) el tercer algoritmo se resolverá con los objetos básicos de Python y por último el sistema de ecuaciones nolineales sera resuelto con métodos de la librería Scipy.
+	\newpage
+	\section*{Solución teórica}
+	\subsection*{Algoritmo de Kadane}
+	Antes de observar el algoritmo Kadane en 2D, estudiamos el algoritmo que nos permite hallar el cual encuentra el máximo subarreglo con máxima suma en una lista de elementos $a(x_1,...,x_n)$, este algorimo esta dado como:
+	\inputminted{python}{codigos/kadane.py}
+	esto nos permite encontrar ella suma máxima en subarreglos y el arreglo $a[init:finish]$, y puede ser extendido en a 2D.\\ \\	
+	Para generalizar nuestro algoritmo, creamos un lista de ceros cuya longitud es el número más grande entre filas y columnas, esto para recolectar las sumas parciales que nos va generando el algoritmo de Kadane en 1D,y recorriendo nuestra matriz por y calculando subarreglo con suma máxima para cada fila de nuestra matriz, podemos encontrar nuestros valores. Se puede ver en el siguiente código:	\inputminted{python}{codigos/kadane2D.py}
+	esta función nos retoma los indices de la primera y ultima entrada de nuestro submatriz con suma máxima.\\
+	Sin embargo, como nuestra matriz es de ceros y uno haciendo uso de la librería Numpy en Python, podemos convertir las entradas de la matriz que son iguales a $1$ con menos el máximo entero que toma el es  sistema y nuestro entradas con valores iguales a $0$ las convertimos en $1$, es decir,\\
+	$1\rightarrow -9223372036854775807$\\
+	$0\rightarrow 1$\\
+	esto puede ser visto en la siguiente función:
+	\inputminted{python}{codigos/convert.py}
+	así la suma máxima va hacer la submatriz, donde todas sus entradas son cero.
+	\section*{Solución problemas}
+	\subsection*{Máximo rectángulo}
+	Para crear nuestra función \textit{maximo\_rectangulo}, nosotros creamos dos condicionales para determinar cuando las filas son mayores a las columnas o de manera dual las columnas mayores que las filas, así de esta manera me genera una lista con los datos que me proporciona el algortimo de Kadane.\\
+	Puedo calcular el ancho y el alto para que nuestra función pueda retornar estos valores, esto se puede ver en a siguiente figura:
+	\begin{figure}[h]
+		\centering 
+		\includesvg[scale=.4]{codigos/Distancia_1.svg}
+		\caption{Rectángulo.}
+	\end{figure}
+	Tambien se maneja algunas excepciones, como son:
+	\begin{itemize}
+		\item Matriz con solo entradas en $1$: se convierte todos los elementos de la matriz en un conjunto, como todos son iguale entonces el conjunto es igual a $\{1\}$.
+		\item Matriz vacía: se convierte todos los elementos de la matriz en un conjunto como no hay entonces la longitud de este conjunto es igual a $0$.
+		\item Matriz con entradas diferentes a $0$ y $1$: se convierte la matriz en un conjunto y se verifica la longitud de este como tiene elementos diferentes a $0,1$ entonces la longitud es mayor que $2$.
+		\item Matriz con entradas no enteras: se usa la sentencia \textit{try-exception} y la excepcion \textit{ValueError}, y se imprime el mensaje de que la matriz no cumple con las condiciones.
+	\end{itemize}
+	}
+	ahora si, nuestra función esta dada como :
+	\inputminted{python}{codigos/maximo_rectangulo.py}
+	al hacer esto, nuestra función nos retorna una coordenada con las siguentes entradas $(r_{Init},c_{Init},width, length)$.
+	\subsection*{Máximo cuadrado}
+	Razonamos de manera similar a la función \textit{maximo\_rectangulo} pero en vez de tomar el ancho y el la longitud de un lado de nuestro cuadrado esta dado como el mínimo entre el ancho y el largo, esto lo podemos ver en la siguiente figura:
+		\begin{figure}[h]
+		\centering 
+		\includesvg[scale=.4]{codigos/Distancia.svg}
+		\caption{Cuadrado.}
+	\end{figure}
+
+	nuestra función posee las mismas excepciones que la función \textit{maximo\_rectangulo}, aunque \textit{maximo\_cuadrado} retorna la siguiente coordenada  $(r_{Init},c_{Init},\min{(width, length)})$, y su código en Python esta dado como:\newpage
+	\inputminted{python}{codigos/maximo_cuadrado.py}
+	\subsection*{Camino iterable}
+	Para esta función, primero pensé en como crear una lista que cuyas entradas son los elementos de de la vecindad de una celda, y una función que me almacenara en un conjunto todas las parejas de indices de las vecindad de una celdas, esto puede verse en las siguientes matrices:\\
+	\begin{center}
+			$\begin{pmatrix}
+		& \vdots&\vdots&\vdots& \\ 
+		\cdots & A&B&C&\cdots\\
+		\cdots & D&E&F&\cdots\\
+		\cdots & G&H&I&\cdots\\
+		& \vdots&\vdots&\vdots& 
+		\end{pmatrix} $
+		\hspace{2pc}
+		$\begin{pmatrix}
+		& \vdots&\vdots&\vdots& \\ 
+		\cdots & (i-1,j-1)&(i-1,j)&(i-1,j+1)&\cdots\\
+		\cdots & (i,j-1)&(i,j)&(i,j+1)&\cdots\\
+		\cdots & (i+1,j-1)&(i+1,j)&(i+1,j+1)&\cdots\\
+		& \vdots&\vdots&\vdots& 
+		\end{pmatrix} $
+	\end{center}
+	\begin{align*}
+		element(M,i,j)&=[A,B,C,D,E,F,G,H,I]\\
+		neigh &=\{(i-1,j-1),(i-1,j),(i-1,j+1),(i,j-1),\\&(i,j),(i,j+1),(i+1,j-1),(i+1,j),(i+1,j+1)\}
+	\end{align*}
+	estas funciones pueden ser escritas fácilmente a partir de una función lambda como sigue:
+	\inputminted{python}{codigos/lambda.py}
+	Ahora, nuestro función \textit{iterador\_celdas\_libres} va estar dada de la siguiente manera, primero recorremos las celdas anteriores a nuestra celda dada $(i,j)$ retrocedemos en las columnas con una sentencia \textbf{For} y retrocedemos en nuestras filas con una sentencia \textbf{For}.\\  \\
+	De esta manera nuestro código va calculando la suma de los elementos de nuestra vecindad en la celda en la que esta actualmente, y verifica que la celda en la que esta posicionada este en nuestro conjunto de vecindades de celdas anteriores, si cumple esta posición nuestra celda sera almacenada en una lista y se actualiza nuestro conjunto de vecindades.\\ \\
+	Pensando de manera similar se crea un sentencia \textbf{For} para que vaya creciendo nuestras filas y realice el mismo calculo, después se reescribe la misma idea pero en vez de disminuir en columnas, el aumenta en ellas. El código de nuestra función esta dado como:
+	\inputminted{python}{codigos/iter.py}
+	Esta función posee algunas excepciones y son las siguientes:
+	\begin{itemize}
+		\item No existe caminos: si damos una entrada en nuestra matriz y la vecindad posee un $1$, nuestra función nos arroja un mensaje diciendo que no existen caminos para esa celda.
+		\item Matriz vacía: se convierte todos los elementos de la matriz en un conjunto como no hay entonces la longitud de este conjunto es igual a $0$.
+		\item Matriz con entradas diferentes a $0$ y $1$: se convierte la matriz en un conjunto y se verifica la longitud de este como tiene elementos diferentes a $0,1$ entonces la longitud es mayor que $2$.
+		\item Matriz con entradas no enteras: se usa la sentencia \textit{try-exception} y la excepcion \textit{ValueError}, y se imprime el mensaje de que la matriz no cumple con las condiciones.
+	\end{itemize}
+
+	Con esto para terminar nuestra lista de elementos que son caminos de una celda seran convertidos en un iterador, para facilitar más los cálculo entonces nuestra función nos retorna un elemento iterable.
+	\section*{Ejercicio plus}
+	Para resolver nuestro sistema de ecuaciones, usamos el metodo \textit{fsolve()} del modulo de la \textit{optimize} de nuestra libreria de Scipy de Python, entonces como nuestro metodo solo acepta funciones, se crea una función que retorne mi sistema de ecuaciones como sigue:
+	\inputminted{python}{codigos/solution.py}
+	y así la solución queda guardada en la variable \textit{solution}.
+	
+	\section*{Pruebas}
+	Se añaden una serie de pruebas, en nuestro archivo solucion de python con algunas matrices que cumplen las condiciones, y también con otras que no permiten ser evaluadas en nuestras función.
+	Sin embargo, se crea un test unitarios para nuestras dos primeras funciones usando la libreria \textit{unittest}. En nuestra carpeta podemos encontrar los archivos para crear nuestro archivo \textit{data.json} y un archivo en Python que nos permite añadir as pruebas para complementar nuestro archivo \textit{json}.
+	
+	
+\end{document}

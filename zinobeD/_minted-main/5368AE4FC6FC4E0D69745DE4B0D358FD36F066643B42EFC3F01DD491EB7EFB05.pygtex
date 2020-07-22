@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{kadane}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,}\PYG{n}{min\PYGZus{}l}\PYG{p}{,}\PYG{n}{max\PYGZus{}l}\PYG{p}{):}
+    \PYG{n}{M} \PYG{o}{=} \PYG{n}{convert\PYGZus{}matriz}\PYG{p}{(}\PYG{n}{A}\PYG{p}{)}
+    \PYG{n}{sum\PYGZus{}max} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{row\PYGZus{}t} \PYG{p}{,}\PYG{n}{col\PYGZus{}t} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}
+    \PYG{n}{row\PYGZus{}f} \PYG{p}{,}\PYG{n}{col\PYGZus{}f} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{g} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{min\PYGZus{}l}\PYG{p}{):}
+        \PYG{n}{sum\PYGZus{}par} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{*}\PYG{n}{max\PYGZus{}l}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{g}\PYG{p}{,} \PYG{n}{min\PYGZus{}l}\PYG{p}{):}
+            \PYG{n}{t}\PYG{o}{=}\PYG{n}{h}\PYG{o}{=}\PYG{l+m+mi}{0}
+            \PYG{k}{for} \PYG{n}{j} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{max\PYGZus{}l}\PYG{p}{):}
+                \PYG{k}{try}\PYG{p}{:}
+                    \PYG{n}{sum\PYGZus{}par}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{o}{+=} \PYG{n}{M}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]}
+                \PYG{k}{except} \PYG{n+ne}{IndexError}\PYG{p}{:}
+                    \PYG{k}{continue}
+                    \PYG{n}{sum\PYGZus{}par}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{o}{+=} \PYG{n}{M}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]}   
+                \PYG{n}{t}\PYG{o}{+=}\PYG{n}{sum\PYGZus{}par}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}
+                \PYG{k}{if} \PYG{n}{t}\PYG{o}{\PYGZgt{}}\PYG{n}{sum\PYGZus{}max}\PYG{p}{:}
+                    \PYG{n}{sum\PYGZus{}max} \PYG{o}{=} \PYG{n}{t} 
+                    \PYG{n}{row\PYGZus{}t}\PYG{p}{,}\PYG{n}{col\PYGZus{}t}\PYG{o}{=} \PYG{n}{h}\PYG{p}{,}\PYG{n}{g}
+                    \PYG{n}{row\PYGZus{}f}\PYG{p}{,}\PYG{n}{col\PYGZus{}f} \PYG{o}{=} \PYG{n}{j}\PYG{p}{,}\PYG{n}{i}
+                \PYG{k}{if} \PYG{n}{t}\PYG{o}{\PYGZlt{}=}\PYG{l+m+mi}{0}\PYG{p}{:}
+                    \PYG{n}{t}\PYG{o}{=}\PYG{l+m+mi}{0}
+                    \PYG{n}{h}\PYG{o}{=}\PYG{n}{j}\PYG{o}{+}\PYG{l+m+mi}{1}
+    \PYG{k}{return} \PYG{n}{sum\PYGZus{}max}\PYG{p}{,}\PYG{n}{row\PYGZus{}t}\PYG{p}{,}\PYG{n}{col\PYGZus{}t}\PYG{p}{,}\PYG{n}{row\PYGZus{}f}\PYG{p}{,}\PYG{n}{col\PYGZus{}f}
+\end{Verbatim}

@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{iterador\PYGZus{}celdas\PYGZus{}libres}\PYG{p}{(}\PYG{n}{M}\PYG{p}{):}
+    \PYG{k}{pass}
+\end{Verbatim}

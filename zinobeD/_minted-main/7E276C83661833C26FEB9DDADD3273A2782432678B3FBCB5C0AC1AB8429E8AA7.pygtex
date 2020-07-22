@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{convert\PYGZus{}matriz}\PYG{p}{(}\PYG{n}{A}\PYG{p}{):}
+    \PYG{n}{A} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{n}{A}\PYG{p}{,} \PYG{n}{dtype}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{float}\PYG{p}{)}
+    \PYG{n}{A} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{where}\PYG{p}{(}\PYG{n}{A}\PYG{o}{==}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{n}{sys}\PYG{o}{.}\PYG{n}{maxsize}\PYG{p}{,}\PYG{n}{A}\PYG{p}{)} 
+    \PYG{n}{A} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{where}\PYG{p}{(}\PYG{n}{A}\PYG{o}{==}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{A}\PYG{p}{)} 
+    \PYG{k}{return} \PYG{n}{A}
+\end{Verbatim}

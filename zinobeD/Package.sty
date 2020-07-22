@@ -1,0 +1,50 @@
+\usepackage{amsmath, amsfonts, amsthm} % Complemento en matematicas.
+\usepackage{amssymb, amsbsy}
+\usepackage{graphicx,graphics} %graficos.
+\usepackage{lettrine}
+\usepackage{verbatim}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[listings]{tcolorbox}
+\usepackage{colortbl}
+\usepackage{cancel}
+\usepackage{multicol}
+\usepackage[document]{ragged2e}
+\usepackage{geometry}
+\usepackage{svg} %SVG
+\usepackage{afterpage}
+\setlength{\parindent}{2cm} %sangria
+\geometry{top=2.54cm, bottom=2.54cm, left=2.54cm, right=2.54cm}
+
+% IMPORTAR TEXTO EXTENSO
+%-------------------------------------------
+\usepackage{import}
+%-------------------------------------------
+%Para poder modificar el nombre del capitulo 
+\usepackage{titlesec}
+\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter}{1em}{}
+
+%-----------------------------------------------
+%Encabezado
+%-----------------------------------------------
+\usepackage{fancyhdr}
+%Estilo de pagina
+\pagestyle{fancy}
+%Renombrar comando para que solo salga el nombre del capitulo.
+\renewcommand{\chaptermark}[1]{ \markboth{#1}{} }
+%Renombrar comando para que solo salga el nombre del seccion.
+\renewcommand{\sectionmark}[1]{ \markright{#1} }
+%Nombre seccion
+\fancyhead[LE,RO]{\rightmark}
+%Nombre capitulo
+\fancyhead[RE,LO]{\leftmark}
+\fancyfoot[C]{\thepage}%numeracion
+%-----------------------------------------------
+\setlength{\JustifyingParindent}{0.1mm}
+
+%contadores
+\newtheorem{Teo}{Teorema}
+\newtheorem{Coro}{Corolario}
+\newtheorem{Prop}{Proposición}
+\newtheorem{Eje}{Ejemplo}
+
+\RequirePackage{sagetex}%sage

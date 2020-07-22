@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{def} \PYG{n+nf}{maximo\PYGZus{}rectangulo}\PYG{p}{(}\PYG{n}{M}\PYG{p}{):}
+    \PYG{k}{pass}
+\end{Verbatim}
